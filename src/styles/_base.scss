@@ -1,0 +1,35 @@
+*,
+::after,
+::before {
+	box-sizing: border-box;
+	position: relative;
+	z-index: 5;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+li,
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+}
+
+ul,
+ol,
+li {
+	list-style-type: none;
+}
