@@ -6,6 +6,8 @@ import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import * as tokenAPI from '../../../../utils/services/token.service';
+
 import { Form } from '../../ui/Form/Form';
 import { SocketContext } from '../../../../contexts/SocketContext';
 
@@ -26,7 +28,7 @@ const FormProvider = () => {
     try {
       await signIn(data);
       socket.connect();
-      console.log(socket.connected);
+      socket.emit('newSocket', { token: tokenAPI.getToken() });
       navigate('/');
     } catch (e: AxiosError | unknown) {
       setError(e instanceof AxiosError ? e.response?.data.message : 'Неизвестная ошибка.');

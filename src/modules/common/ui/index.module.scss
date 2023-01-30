@@ -1,0 +1,18 @@
+.loading {
+	width: 360px;
+	margin-inline: auto;
+	user-select: none;
+
+	img {
+		width: 360px;
+		display: block;
+	}
+
+	span {
+		width: 100%;
+		font-size: 18px;
+		display: block;
+		text-align: center;
+		margin-top: -25px;
+	}
+}

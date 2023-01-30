@@ -26,7 +26,6 @@ const FormProvider = () => {
     try {
       await signUp(data);
       socket.connect();
-      console.log(socket.connected);
       navigate('/');
     } catch (e: AxiosError | unknown) {
       setError(e instanceof AxiosError ? e.response?.data.message : 'Неизвестная ошибка.');

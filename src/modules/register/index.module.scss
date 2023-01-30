@@ -6,7 +6,7 @@
 	position: relative;
 	z-index: 1;
 
-	background-image: url('../../assets/img/desert_bg.jpg');
+	background-image: url('../../assets/img/desert.jpg');
 	background-size: cover;
 
 	&::before {
@@ -17,18 +17,13 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(187, 187, 187, 0.4);
+		background-color: rgba(91, 88, 229, 0.3);
 	}
 }
 
 .layout {
 	padding: 90px;
 	background-color: white;
-
-	h1,
-	h2 {
-		text-align: center;
-	}
 
 	h1 {
 		margin-bottom: 8px;
@@ -78,9 +73,9 @@
 	padding: 8px 0;
 
 	background-color: transparent;
-	border: 1.5px solid #9e6baf;
+	border: 1.5px solid #5b58e5;
 
-	color: #9e6baf;
+	color: #5b58e5;
 	font-weight: 500;
 	letter-spacing: 0.02rem;
 
@@ -88,7 +83,7 @@
 	transition: 0.2s ease-out;
 
 	&:hover {
-		background-color: #9e6baf;
+		background-color: #5b58e5;
 		border: 1.5px solid transparent;
 		color: white;
 	}
@@ -119,7 +114,7 @@
 	a {
 		transition: 0.2 ease-out;
 		&:hover {
-			color: #9e6baf;
+			color: #5b58e5;
 		}
 	}
 }

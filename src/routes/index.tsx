@@ -4,8 +4,6 @@ import { PrivateRoute } from './PrivateRoute';
 import { LoginPage } from '../modules/login';
 import { RegisterPage } from '../modules/register';
 import { EntryPage } from '../modules/entry';
-// import { GamePage } from '../modules/game';
-// import { GameProvider } from '../hooks/useGameContext';
 
 function DefaultRouter() {
   return (
