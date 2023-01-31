@@ -26,3 +26,15 @@ export type UserPeer = {
 export type User = {
   username: string;
 };
+
+export type AuthenticationResponseParams = {
+  token: string;
+};
+
+export type Error = {
+  data: {
+    message: string;
+    statusCode: number;
+  };
+  statusCode: number;
+};

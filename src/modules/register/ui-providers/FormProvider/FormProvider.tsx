@@ -1,52 +1,49 @@
-import { useContext, useState } from 'react';
-import { AxiosError } from 'axios';
-
+import { useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Form } from '../../ui/Form/Form';
-import { SocketContext } from '../../../../contexts/SocketContext';
+import { Form, FormWrapper } from '../../ui';
+import { Input, ErrorMessage } from '../../../common/ui';
 
-import { signUp } from '../../../../utils/api';
-import { UserCredentialsParams } from '../../../../utils/types';
-
-import styles from '../../index.module.scss';
+import { useSignUpMutation } from '../../../../utils/api/auth.api';
+import { Error, UserCredentialsParams } from '../../../../utils/types';
 
 const FormProvider = () => {
   const navigate = useNavigate();
-  const socket = useContext(SocketContext);
 
-  const [error, setError] = useState<string>();
+  const [signUp, { isLoading }] = useSignUpMutation();
+  const [error, setError] = useState<Error | null>(); // Лишний ререндер, но больше удобства
 
   const { register, handleSubmit } = useForm<UserCredentialsParams>();
 
-  const onSubmit = async (data: UserCredentialsParams) => {
+  const onSignUp = async (data: UserCredentialsParams) => {
     try {
-      await signUp(data);
-      socket.connect();
+      await signUp(data).unwrap();
       navigate('/');
-    } catch (e: AxiosError | unknown) {
-      setError(e instanceof AxiosError ? e.response?.data.message : 'Неизвестная ошибка.');
+    } catch (e) {
+      setError(e as Error);
     }
   };
-
   return (
-    <div className={styles.layout}>
-      <h2>Регистрация</h2>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.input}>
-          <label htmlFor='username'>Имя пользователя</label>
-          <input type='text' id='username' {...register('username', { required: true })} />
-        </div>
-        <div className={styles.input}>
-          <label htmlFor='password'>Пароль</label>
-          <input type='password' id='password' {...register('password', { required: true })} />
-        </div>
-        {!!error && <div className={styles.error}>{error}</div>}
+    <FormWrapper heading='Регистрация'>
+      <Form onSubmit={handleSubmit(onSignUp)} isDisabled={isLoading}>
+        <Input
+          label='Логин пользователя'
+          id='username'
+          type='text'
+          props={register('username', { required: true })}
+        />
+        <Input
+          label='Пароль'
+          id='password'
+          type='password'
+          props={register('password', { required: true })}
+        />
+        {error && <ErrorMessage message={error.data.message} />}
       </Form>
-    </div>
+    </FormWrapper>
   );
 };
 

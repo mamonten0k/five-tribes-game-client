@@ -11,7 +11,7 @@ Check Backend repo [here](https://github.com/mamonten0k/five-tribes-game-server)
 
 - React & Typescript
 - Redux
-- Axios
+- RTK Query
 - Socket-io
 
 Till the final version eveything could change.

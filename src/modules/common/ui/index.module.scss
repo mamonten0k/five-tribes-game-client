@@ -1,7 +1,12 @@
 .loading {
-	width: 360px;
 	margin-inline: auto;
 	user-select: none;
+	width: 360px;
+	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
 	img {
 		width: 360px;
@@ -15,4 +20,33 @@
 		text-align: center;
 		margin-top: -25px;
 	}
+}
+
+.input {
+	display: flex;
+	flex-direction: column;
+	row-gap: 8px;
+
+	input {
+		display: flex;
+
+		width: 300px;
+		padding: 10px;
+
+		outline: none;
+		border: 1.5px solid black;
+	}
+
+	label {
+		font-size: 14px;
+	}
+}
+
+.error {
+	font-size: 13px;
+	color: rgb(167, 35, 35);
+
+	max-width: 300px;
+	word-wrap: break-word;
+	text-align: center;
 }

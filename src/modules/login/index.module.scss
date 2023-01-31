@@ -45,26 +45,6 @@
 	}
 }
 
-.input {
-	display: flex;
-	flex-direction: column;
-	row-gap: 8px;
-
-	input {
-		display: flex;
-
-		width: 300px;
-		padding: 10px;
-
-		outline: none;
-		border: 1.5px solid black;
-	}
-
-	label {
-		font-size: 14px;
-	}
-}
-
 .button {
 	display: flex;
 	align-items: center;
@@ -89,9 +69,8 @@
 	}
 }
 
-.error {
-	font-size: 13px;
-	color: rgb(167, 35, 35);
+.notification {
+	font-size: 12px;
 
 	max-width: 300px;
 	word-wrap: break-word;
