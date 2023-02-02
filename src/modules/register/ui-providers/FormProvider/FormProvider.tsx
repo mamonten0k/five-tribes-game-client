@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Form, FormWrapper } from '../../ui';
-import { Input, ErrorMessage } from '../../../common/ui';
+import { FormWrapper } from '../../ui';
+import { Input, ErrorMessage, Form } from '../../../common/ui';
 
 import { useSignUpMutation } from '../../../../utils/api/auth.api';
 import { Error, UserCredentialsParams } from '../../../../utils/types';
@@ -26,20 +26,21 @@ const FormProvider = () => {
       setError(e as Error);
     }
   };
+
   return (
     <FormWrapper heading='Регистрация'>
-      <Form onSubmit={handleSubmit(onSignUp)} isDisabled={isLoading}>
+      <Form submitMsg='Регистрация' onSubmit={handleSubmit(onSignUp)} isDisabled={isLoading}>
         <Input
           label='Логин пользователя'
           id='username'
           type='text'
-          props={register('username', { required: true })}
+          refs={register('username', { required: true })}
         />
         <Input
           label='Пароль'
           id='password'
           type='password'
-          props={register('password', { required: true })}
+          refs={register('password', { required: true })}
         />
         {error && <ErrorMessage message={error.data.message} />}
       </Form>

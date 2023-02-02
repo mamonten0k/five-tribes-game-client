@@ -1,30 +1,45 @@
-import { MouseEvent, useContext } from 'react';
-import { SocketContext } from '../../../../contexts/SocketContext';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
+import { selectGameLoadingState } from '../../../../store/game/game.selectors';
+import { gameActions } from '../../../../store/game/game.slice';
+import { useFindGameMutation } from '../../../../utils/api/game.api';
+import { Error } from '../../../../utils/types';
 
-import * as tokenAPI from '../../../../utils/services/token.service';
-
-import { Spinner } from '../../../common/ui';
+import { ErrorMessage, Spinner } from '../../../common/ui';
 import { FindGame } from '../../ui/FindGame/FindGame';
 
-import styles from '../index.module.scss';
-
 const FindGameProvider = () => {
-  const socket = useContext(SocketContext);
+  // const isLoading = useSelector((state: RootState) => selectGameLoadingState(state));
+  // const dispatch = useDispatch();
 
-  const onFindGame = async (e: MouseEvent) => {
+  // useEffect(() => {
+  //   dispatch(gameActions.initiateConnection());
+  // }, []);
+  // const [findExistingGame]
+  const [findGame, { data, isLoading }] = useFindGameMutation();
+  const [error, setError] = useState<Error | null>();
+
+  const onFindGame = async () => {
     try {
-      const result = socket.emit('onNewGame', { token: tokenAPI.getToken() });
-      console.log(result);
+      await findGame().unwrap();
     } catch (e) {
       console.log(e);
+      setError(e as Error);
     }
   };
 
-  // if (stage === '0') {
-  //   return <Spinner message='Поиск игры...' />;
-  // }
+  if (isLoading) {
+    return <Spinner message='Поиск игры...' />;
+  }
 
-  return <FindGame onFindGame={onFindGame} />;
+  return (
+    <>
+      {data && data.game_id}
+      <FindGame onFindGame={onFindGame} />
+      {error && <ErrorMessage message={error.data.message} />}
+    </>
+  );
 };
 
 export { FindGameProvider };

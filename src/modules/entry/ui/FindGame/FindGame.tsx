@@ -1,17 +1,16 @@
 import { FC, MouseEvent } from 'react';
-
-import styles from '../../index.module.scss';
+import { Button } from '../../../common/ui';
 
 type FindGameProps = {
-  onFindGame: (e: MouseEvent) => void;
+  onFindGame: (e?: MouseEvent | Event) => void;
 };
 
 const FindGame: FC<FindGameProps> = ({ onFindGame }) => {
   return (
     <>
-      <button type='button' onClick={onFindGame}>
+      <Button onClick={onFindGame} type='button'>
         Найти игру
-      </button>
+      </Button>
     </>
   );
 };

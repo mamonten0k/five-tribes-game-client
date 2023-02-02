@@ -27,8 +27,12 @@ export type User = {
   username: string;
 };
 
-export type AuthenticationResponseParams = {
+export type AuthenticationResponse = {
   token: string;
+};
+
+export type FindGameResponse = {
+  gameId: string;
 };
 
 export type Error = {

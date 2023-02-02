@@ -42,6 +42,40 @@
 	}
 }
 
+.form {
+	display: flex;
+	flex-direction: column;
+	row-gap: 16px;
+
+	h1 {
+		margin-bottom: 100px;
+	}
+}
+
+.button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 8px 30px;
+
+	background-color: transparent;
+	border: 1.5px solid #5b58e5;
+
+	color: #5b58e5;
+	font-weight: 500;
+	letter-spacing: 0.02rem;
+
+	cursor: pointer;
+	transition: 0.2s ease-out;
+
+	&:hover {
+		background-color: #5b58e5;
+		border: 1.5px solid transparent;
+		color: white;
+	}
+}
+
 .error {
 	font-size: 13px;
 	color: rgb(167, 35, 35);

@@ -1,11 +1,11 @@
 import { rootAPI } from '.';
-import { UserCredentialsParams, AuthenticationResponseParams } from '../types';
+import { UserCredentialsParams, AuthenticationResponse } from '../types';
 
 import * as tokenAPI from '../services/token.service';
 
 const authAPI = rootAPI.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.mutation<AuthenticationResponseParams, UserCredentialsParams>({
+    signIn: builder.mutation<AuthenticationResponse, UserCredentialsParams>({
       query: (userCredentials) => ({
         url: 'auth/login',
         method: 'POST',
@@ -20,7 +20,7 @@ const authAPI = rootAPI.injectEndpoints({
         }
       },
     }),
-    signUp: builder.mutation<AuthenticationResponseParams, UserCredentialsParams>({
+    signUp: builder.mutation<AuthenticationResponse, UserCredentialsParams>({
       query: (userCredentials) => ({
         url: 'auth/register',
         method: 'POST',
@@ -28,6 +28,7 @@ const authAPI = rootAPI.injectEndpoints({
       }),
     }),
     getStatus: builder.query<void, void>({
+      // Добавить удалние токена если пробросило ошибку
       query: () => ({
         url: 'auth/status',
         method: 'GET',
