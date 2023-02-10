@@ -8,9 +8,9 @@ interface ButtonProps extends ComponentPropsWithRef<'button'> {
   styled?: string;
 }
 
-const Button: FC<ButtonProps> = ({ children, onClick, ...rest }) => {
+const Button: FC<ButtonProps> = ({ children, styled, onClick, ...rest }) => {
   return (
-    <button className={styles.button} onClick={onClick} {...rest}>
+    <button className={styles.button + ` ${styled}`} onClick={onClick} {...rest}>
       {children}
     </button>
   );

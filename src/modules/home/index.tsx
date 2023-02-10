@@ -1,15 +1,16 @@
 import { PageLayout } from '../../layouts';
 
-import { FindGameProvider } from './ui-providers';
+import { ExistingGamesProvider, FindGameProvider } from './ui-providers';
 
 import styles from './index.module.scss';
 
-const EntryPage = () => {
+const HomePage = () => {
   return (
     <PageLayout styled={styles.page}>
+      <ExistingGamesProvider />
       <FindGameProvider />
     </PageLayout>
   );
 };
 
-export { EntryPage };
+export { HomePage };

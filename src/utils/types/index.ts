@@ -32,7 +32,15 @@ export type AuthenticationResponse = {
 };
 
 export type FindGameResponse = {
-  gameId: string;
+  game_id: string;
+};
+
+export type FindExistingGamesResponse = {
+  games: GameGeneralInfo[];
+};
+
+export type ExitGameParams = {
+  game_id: string;
 };
 
 export type Error = {
@@ -41,4 +49,11 @@ export type Error = {
     statusCode: number;
   };
   statusCode: number;
+};
+
+export type GameGeneralInfo = {
+  id: string;
+  rival: string;
+  player: string;
+  timestamp: string;
 };

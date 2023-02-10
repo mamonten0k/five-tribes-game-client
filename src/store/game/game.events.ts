@@ -1,5 +1,6 @@
 enum GameEvent {
-  PlaceInQueue = 'onPlaceInQueue',
+  InitGame = 'onInitGame',
+  SendRivalConnected = 'onRivalConnected',
   GetStatusInQueue = 'onGetStatusInQueue',
   SendStatusInQueue = 'onSendStatusInQueue',
 }

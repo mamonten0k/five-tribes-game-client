@@ -1,22 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../store';
-import { selectGameLoadingState } from '../../../../store/game/game.selectors';
-import { gameActions } from '../../../../store/game/game.slice';
+import { useState } from 'react';
 import { useFindGameMutation } from '../../../../utils/api/game.api';
 import { Error } from '../../../../utils/types';
+import { Navigate } from 'react-router-dom';
 
 import { ErrorMessage, Spinner } from '../../../common/ui';
 import { FindGame } from '../../ui/FindGame/FindGame';
+import { FindGameWrapper } from '../../ui/FindGameWrapper/FindGameWrapper';
 
 const FindGameProvider = () => {
-  // const isLoading = useSelector((state: RootState) => selectGameLoadingState(state));
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(gameActions.initiateConnection());
-  // }, []);
-  // const [findExistingGame]
   const [findGame, { data, isLoading }] = useFindGameMutation();
   const [error, setError] = useState<Error | null>();
 
@@ -24,21 +15,24 @@ const FindGameProvider = () => {
     try {
       await findGame().unwrap();
     } catch (e) {
-      console.log(e);
       setError(e as Error);
     }
   };
 
   if (isLoading) {
-    return <Spinner message='Поиск игры...' />;
+    // return <Spinner message='Поиск игры...' />;
+    return <div>Loading...</div>;
+  }
+
+  if (data) {
+    return <Navigate to={`/game?gameId=${data.game_id}`} />;
   }
 
   return (
-    <>
-      {data && data.game_id}
+    <FindGameWrapper>
       <FindGame onFindGame={onFindGame} />
       {error && <ErrorMessage message={error.data.message} />}
-    </>
+    </FindGameWrapper>
   );
 };
 

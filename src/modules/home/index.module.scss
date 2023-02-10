@@ -1,0 +1,83 @@
+.page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	row-gap: 24px;
+}
+
+.layout {
+	display: flex;
+	flex-direction: column;
+	row-gap: 16px;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	font-size: 14px;
+
+	row-gap: 16px;
+}
+
+.bulletin {
+	display: flex;
+	flex: 1 1 100%;
+	justify-content: space-between;
+	column-gap: 10px;
+
+	padding: 8px 14px;
+	border: 1.5px solid black;
+
+	cursor: pointer;
+
+	transition: 0.25s ease-out;
+
+	&:hover {
+		border-color: #5b58e5;
+		color: #5b58e5;
+	}
+
+	& > ::before {
+		color: black;
+	}
+}
+
+.game {
+	display: flex;
+	column-gap: 16px;
+	justify-content: space-between;
+
+	a {
+		text-decoration: none;
+	}
+}
+
+.id {
+	&::before {
+		content: 'id - ';
+	}
+}
+
+.rival {
+	&::before {
+		content: 'противник - ';
+	}
+}
+
+.timestamp {
+	&::before {
+		content: 'начата - ';
+	}
+}
+
+.button-exit {
+	border: 1.5px solid #d02121;
+
+	color: #d02121;
+
+	&:hover {
+		background-color: #d02121;
+		color: white;
+	}
+}

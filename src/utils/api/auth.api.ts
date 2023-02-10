@@ -11,10 +11,12 @@ const authAPI = rootAPI.injectEndpoints({
         method: 'POST',
         body: userCredentials,
       }),
-      async onCacheEntryAdded(_, { cacheDataLoaded, cacheEntryRemoved }) {
+      async onCacheEntryAdded(user, { cacheDataLoaded, cacheEntryRemoved }) {
         try {
           const { data } = await cacheDataLoaded;
+          console.log(user);
           tokenAPI.setToken(data.token);
+          tokenAPI.setUser(user.username);
         } finally {
           await cacheEntryRemoved;
         }
@@ -26,9 +28,17 @@ const authAPI = rootAPI.injectEndpoints({
         method: 'POST',
         body: userCredentials,
       }),
+      async onCacheEntryAdded(user, { cacheDataLoaded, cacheEntryRemoved }) {
+        try {
+          const { data } = await cacheDataLoaded;
+          tokenAPI.setToken(data.token);
+          tokenAPI.setUser(user.username);
+        } finally {
+          await cacheEntryRemoved;
+        }
+      },
     }),
     getStatus: builder.query<void, void>({
-      // Добавить удалние токена если пробросило ошибку
       query: () => ({
         url: 'auth/status',
         method: 'GET',
