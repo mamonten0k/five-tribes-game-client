@@ -7,7 +7,7 @@ export interface GameState {
   isEstablishingConnection: boolean;
   isConnected: boolean;
   isLoading: boolean;
-  id: string | null;
+  gameId: string | null;
   rival: string | null;
   timestamp: string | null;
 }
@@ -16,7 +16,7 @@ const initialState: GameState = {
   isEstablishingConnection: false,
   isConnected: false,
   isLoading: false,
-  id: null,
+  gameId: null,
   rival: null,
   timestamp: null,
 };
@@ -39,8 +39,8 @@ const gameSlice = createSlice({
       state.isEstablishingConnection = true;
     },
     initiateGame: (state, action) => {
-      const { id, rival, timestamp } = action.payload;
-      state.id = id;
+      const { gameId, rival, timestamp } = action.payload;
+      state.gameId = gameId;
       state.rival = rival;
       state.timestamp = timestamp;
     },

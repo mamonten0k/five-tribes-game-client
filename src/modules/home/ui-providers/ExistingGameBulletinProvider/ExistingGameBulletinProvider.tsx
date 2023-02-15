@@ -8,15 +8,12 @@ import { Button } from '../../../common/ui';
 import { ExisitngGameBulletin } from '../../ui/ExisitngGameBulletin/ExisitngGameBulletin';
 
 import styles from '../../index.module.scss';
+import { GameGeneralInfo } from '../../../../utils/types';
 
-interface ExistingGameBulletinProviderProps {
-  id: string;
-  rival: string;
-  timestamp: string;
-}
+type ExistingGameBulletinProviderProps = GameGeneralInfo;
 
 const ExistingGameBulletinProvider: FC<ExistingGameBulletinProviderProps> = ({
-  id,
+  gameId,
   rival,
   timestamp,
 }) => {
@@ -24,12 +21,12 @@ const ExistingGameBulletinProvider: FC<ExistingGameBulletinProviderProps> = ({
   const [exitGame] = useExitGameMutation();
 
   const handleClick = () => {
-    dispatch(gameActions.initiateGame({ id, rival, timestamp }));
+    dispatch(gameActions.initiateGame({ gameId, rival, timestamp }));
   };
 
   const handleExit = async () => {
     try {
-      await exitGame({ game_id: id }).unwrap();
+      await exitGame({ gameId }).unwrap();
     } catch (e) {
       console.log(e);
     }
@@ -37,7 +34,7 @@ const ExistingGameBulletinProvider: FC<ExistingGameBulletinProviderProps> = ({
 
   return (
     <>
-      <ExisitngGameBulletin id={id} rival={rival} timestamp={timestamp} onClick={handleClick} />
+      <ExisitngGameBulletin id={gameId} rival={rival} timestamp={timestamp} onClick={handleClick} />
       <Button onClick={handleExit} styled={styles['button-exit']}>
         Выйти из игры
       </Button>

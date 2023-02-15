@@ -13,16 +13,6 @@ export type UserCredentialsParams = {
   password: string;
 };
 
-export type UserPresence = {
-  id: number;
-  statusMessage?: string;
-  showOffline: boolean;
-};
-
-export type UserPeer = {
-  id: string;
-};
-
 export type User = {
   username: string;
 };
@@ -32,15 +22,21 @@ export type AuthenticationResponse = {
 };
 
 export type FindGameResponse = {
-  game_id: string;
+  gameId: string;
+};
+
+export type ExitGameParams = {
+  gameId: string;
+};
+
+export type GameGeneralInfo = {
+  gameId: string;
+  rival: string;
+  timestamp: string;
 };
 
 export type FindExistingGamesResponse = {
   games: GameGeneralInfo[];
-};
-
-export type ExitGameParams = {
-  game_id: string;
 };
 
 export type Error = {
@@ -49,11 +45,4 @@ export type Error = {
     statusCode: number;
   };
   statusCode: number;
-};
-
-export type GameGeneralInfo = {
-  id: string;
-  rival: string;
-  player: string;
-  timestamp: string;
 };

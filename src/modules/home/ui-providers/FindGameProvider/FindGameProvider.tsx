@@ -3,7 +3,7 @@ import { useFindGameMutation } from '../../../../utils/api/game.api';
 import { Error } from '../../../../utils/types';
 import { Navigate } from 'react-router-dom';
 
-import { ErrorMessage, Spinner } from '../../../common/ui';
+import { ErrorMessage } from '../../../common/ui';
 import { FindGame } from '../../ui/FindGame/FindGame';
 import { FindGameWrapper } from '../../ui/FindGameWrapper/FindGameWrapper';
 
@@ -20,12 +20,11 @@ const FindGameProvider = () => {
   };
 
   if (isLoading) {
-    // return <Spinner message='Поиск игры...' />;
     return <div>Loading...</div>;
   }
 
   if (data) {
-    return <Navigate to={`/game?gameId=${data.game_id}`} />;
+    return <Navigate to={`/game?gameId=${data.gameId}`} />;
   }
 
   return (

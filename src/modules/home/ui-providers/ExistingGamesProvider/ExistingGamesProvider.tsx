@@ -18,7 +18,8 @@ const ExistingGamesProvider = () => {
   return (
     <>
       <ExistingGames>
-        {data && data.games.map((game) => <ExistingGameBulletinProvider key={game.id} {...game} />)}
+        {data &&
+          data.games.map((game) => <ExistingGameBulletinProvider key={game.gameId} {...game} />)}
       </ExistingGames>
     </>
   );

@@ -5,16 +5,26 @@ import { rootAPI } from '../utils/api';
 
 import gameMiddleware from './game/game.middleware';
 import { gameReducer } from './game/game.slice';
+import { socketActionTypes, socketReducer } from './socket/socket.slice';
 
 export const store = configureStore({
   reducer: {
     game: gameReducer,
+    socket: socketReducer,
     [rootAPI.reducerPath]: rootAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [
+          socketActionTypes.SET_SOCKET,
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+        ],
       },
     }).concat([rootAPI.middleware, gameMiddleware]),
 });

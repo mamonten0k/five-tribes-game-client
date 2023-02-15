@@ -8,7 +8,7 @@ const authAPI = rootAPI.injectEndpoints({
   endpoints: (builder) => ({
     findGame: builder.mutation<FindGameResponse, void>({
       query: () => ({
-        url: 'game/status',
+        url: 'game/game-status',
         method: 'POST',
         headers: {
           authorization: `Bearer ${tokenAPI.getToken()}`,
