@@ -5,7 +5,7 @@ import { GameProvider } from '../modules/game/ui-providers';
 const GameRoutes = () => (
   <Routes>
     <Route element={<GamePage />}>
-      <Route index element={<GameProvider />} />
+      <Route path=':gameId' element={<GameProvider />} />
     </Route>
   </Routes>
 );

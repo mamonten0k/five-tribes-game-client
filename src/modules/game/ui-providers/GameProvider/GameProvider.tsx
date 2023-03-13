@@ -1,27 +1,48 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../store';
-import { selectGameLoadingState } from '../../../../store/game/game.selectors';
-import { gameActions } from '../../../../store/game/game.slice';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import {
+  selectGameLoadingState,
+  selectGameRoundStage,
+} from '../../../../store/game/game.selectors';
+import useGetGameData from '../../hooks/useGetGameData';
+import BetsProvider from '../BetsProvider/BetsProvider';
 
 import { Spinner } from '../../../common/ui';
+import { ProvincesProvider } from '../ProvincesProvider/ProvincesProvider';
+import { PlacementProvider } from '../PlacementProvider/PlacementProvider';
+import { EndGame } from '../EndGame/EndGame';
 
-import { useSearchParams } from 'react-router-dom';
+export const GameProvider = () => {
+  const { gameId } = useParams();
+  const { refetch } = useGetGameData({ gameId: gameId || '' });
 
-import { Game } from '../../ui/Game/Game';
-
-const GameProvider = () => {
-  const [searchParams] = useSearchParams();
-
-  const isLoading = useSelector((state: RootState) => selectGameLoadingState(state));
-  const dispatch = useDispatch();
+  const isLoading = useSelector(selectGameLoadingState);
+  const roundStage = useSelector(selectGameRoundStage);
 
   useEffect(() => {
-    dispatch(gameActions.initiateConnection());
+    const interval = setInterval(() => {
+      if (roundStage !== -1) refetch();
+      else clearInterval(interval);
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  if (isLoading) return <Spinner message='Ждем загрузки противника...' />;
-  return <Game gameId={searchParams.get('gameId')} />;
-};
+  if (isLoading) return <Spinner message='Загружаем нужные данные...' />;
 
-export { GameProvider };
+  if (roundStage === 0) {
+    return <BetsProvider />;
+  }
+
+  if (roundStage === 1) {
+    return (
+      <>
+        <PlacementProvider />
+        <ProvincesProvider />
+      </>
+    );
+  }
+
+  return <EndGame />;
+};

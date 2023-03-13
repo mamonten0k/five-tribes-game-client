@@ -1,36 +1,47 @@
-import { useState } from 'react';
-import { useFindGameMutation } from '../../../../utils/api/game.api';
-import { Error } from '../../../../utils/types';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { gameActions } from '../../../../store/game/game.slice';
+import { errorActions } from '../../../../store/error/error.slice';
+import { selectError } from '../../../../store/error/error.selectors';
+import { selectGameId } from '../../../../store/game/game.selectors';
+import usePostFindGame from '../../hooks/usePostFindGame';
 
 import { ErrorMessage } from '../../../common/ui';
+
 import { FindGame } from '../../ui/FindGame/FindGame';
 import { FindGameWrapper } from '../../ui/FindGameWrapper/FindGameWrapper';
 
 const FindGameProvider = () => {
-  const [findGame, { data, isLoading }] = useFindGameMutation();
-  const [error, setError] = useState<Error | null>();
+  const dispatch = useDispatch();
+
+  const findGame = usePostFindGame();
+  const error = useSelector(selectError);
+
+  const gameId = useSelector(selectGameId);
 
   const onFindGame = async () => {
-    try {
-      await findGame().unwrap();
-    } catch (e) {
-      setError(e as Error);
-    }
+    findGame.mutate();
   };
 
-  if (isLoading) {
+  useEffect(() => {
+    dispatch(errorActions.flush());
+    dispatch(gameActions.resetStore());
+    dispatch(gameActions.resetGameState());
+  }, []);
+
+  if (findGame.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (data) {
-    return <Navigate to={`/game?gameId=${data.gameId}`} />;
+  if (findGame.isSuccess && gameId) {
+    return <Navigate to={`/game/${gameId}`} />;
   }
 
   return (
     <FindGameWrapper>
       <FindGame onFindGame={onFindGame} />
-      {error && <ErrorMessage message={error.data.message} />}
+      {error && <ErrorMessage message={error} />}
     </FindGameWrapper>
   );
 };

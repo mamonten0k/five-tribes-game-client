@@ -1,14 +1,17 @@
 /* eslint-disable camelcase */
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { errorActions } from '../../../../store/error/error.slice';
 import { gameActions } from '../../../../store/game/game.slice';
-import { useExitGameMutation } from '../../../../utils/api/game.api';
+import usePostExitGame from '../../hooks/usePostExitGame';
 
 import { Button } from '../../../common/ui';
 import { ExisitngGameBulletin } from '../../ui/ExisitngGameBulletin/ExisitngGameBulletin';
 
-import styles from '../../index.module.scss';
 import { GameGeneralInfo } from '../../../../utils/types';
+
+import styles from '../../index.module.scss';
 
 type ExistingGameBulletinProviderProps = GameGeneralInfo;
 
@@ -18,19 +21,25 @@ const ExistingGameBulletinProvider: FC<ExistingGameBulletinProviderProps> = ({
   timestamp,
 }) => {
   const dispatch = useDispatch();
-  const [exitGame] = useExitGameMutation();
+  const navigate = useNavigate();
+
+  const exitGame = usePostExitGame();
 
   const handleClick = () => {
-    dispatch(gameActions.initiateGame({ gameId, rival, timestamp }));
+    dispatch(gameActions.setGameId({ gameId, rival }));
+    navigate(`/game/${gameId}`);
   };
 
   const handleExit = async () => {
-    try {
-      await exitGame({ gameId }).unwrap();
-    } catch (e) {
-      console.log(e);
-    }
+    dispatch(errorActions.flush);
+    exitGame.mutate({ gameId });
   };
+
+  useEffect(() => {
+    if (exitGame.isSuccess) {
+      navigate('/');
+    }
+  }, [exitGame.isSuccess]);
 
   return (
     <>

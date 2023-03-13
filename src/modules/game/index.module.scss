@@ -2,4 +2,540 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	position: relative;
+}
+
+.bet {
+	display: block;
+	border-radius: 50%;
+	width: 58px;
+	height: 55px;
+	padding: 0;
+
+	&:disabled {
+		border-color: rgb(111, 111, 111);
+		color: rgb(111, 111, 111);
+
+		&:hover {
+			background-color: rgb(111, 111, 111);
+			color: white;
+		}
+	}
+}
+
+.error {
+	font-size: 13px;
+	color: rgb(167, 35, 35);
+
+	text-align: left;
+	margin-top: 20px;
+	max-width: 220px;
+}
+
+.player {
+	display: flex;
+	flex-direction: column;
+
+	justify-content: flex-start;
+
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	font-size: 14px;
+
+	user-select: none;
+
+	&_self {
+		align-items: flex-start;
+
+		.info {
+			&::before {
+				content: 'Кол-во монет';
+				display: block;
+				padding-right: 6px;
+				margin-left: 7px;
+				color: black;
+			}
+		}
+
+		.helmet {
+			span {
+				margin-left: 6px;
+			}
+		}
+	}
+
+	&_rival {
+		align-items: flex-end;
+
+		.info {
+			&::after {
+				content: 'Кол-во монет';
+				display: block;
+				padding-left: 6px;
+				margin-right: 7px;
+				color: black;
+			}
+		}
+
+		.helmet {
+			span {
+				margin-right: 6px;
+			}
+		}
+	}
+}
+
+.helmet {
+	text-align: center;
+
+	span {
+		display: block;
+		transition: 0.25s;
+		padding-top: 10px;
+		cursor: pointer;
+	}
+
+	&:hover {
+		color: #5b58e5;
+	}
+
+	&::before {
+		content: '';
+		display: block;
+
+		width: 50px;
+		height: 50px;
+		background-image: url('../../assets/img/user.png');
+		background-size: contain;
+		cursor: pointer;
+	}
+}
+
+.info {
+	display: flex;
+	margin-top: 6px;
+	transition: 0.25s;
+	cursor: pointer;
+
+	&:hover {
+		color: #5b58e5;
+	}
+}
+
+.state_wrapper {
+	position: absolute;
+	top: 40px;
+	transform: translate(38px, -40px);
+
+	display: flex;
+	column-gap: 16px;
+	z-index: 6;
+}
+
+.countdown_wrapper {
+	padding-top: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	row-gap: 14px;
+	position: relative;
+}
+
+.turns_order {
+	padding-top: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	row-gap: 14px;
+	position: relative;
+	left: 1px;
+}
+
+.turns {
+	display: flex;
+	align-items: flex-start;
+	column-gap: 20px;
+	position: relative;
+}
+
+.bets {
+	display: flex;
+}
+
+.turn {
+	font-size: 14px;
+
+	position: relative;
+
+	transition: 0.25s ease-out;
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+
+		display: block;
+		width: 20%;
+		height: 1.5px;
+		background-color: #5b58e5;
+		transition: 0.25s ease-out;
+	}
+
+	&:hover {
+		color: #5b58e5;
+		&::after {
+			width: 100%;
+		}
+	}
+
+	&_rival {
+		&::after {
+			background-color: black;
+		}
+
+		&:hover {
+			color: black;
+			&::after {
+				width: 100%;
+			}
+		}
+	}
+
+	cursor: pointer;
+	user-select: none;
+}
+
+.field {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: auto;
+	grid-gap: 10px;
+
+	&_wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 100px;
+		margin-bottom: 24px;
+
+		row-gap: 14px;
+	}
+}
+
+.province {
+	user-select: none;
+	border: 1.5px solid black;
+	width: 100px;
+	height: 100px;
+	position: relative;
+
+	display: flex;
+
+	cursor: pointer;
+
+	&_h {
+		border-color: #5b58e5;
+	}
+
+	&_points {
+		font-size: 14px;
+		position: absolute;
+		padding: 4px 8px;
+		border: 1px solid black;
+		background-color: black;
+		border-radius: 50%;
+		color: white;
+
+		right: 6px;
+		top: 6px;
+
+		transition: 0.25s ease-out;
+	}
+
+	&:hover {
+		.province_points {
+			background-color: transparent;
+			color: black;
+		}
+	}
+
+	&_id {
+		font-size: 12px;
+		position: absolute;
+
+		top: 6px;
+		left: 6px;
+		color: #5b58e5;
+
+		white-space: none;
+	}
+
+	&_heading_rival {
+		margin-top: 10px;
+		margin-right: 5px;
+	}
+
+	&_heading_player {
+		margin-top: 12px;
+		margin-left: 7px;
+	}
+
+	&::before {
+		content: 'Провинция';
+		font-size: 10px;
+		position: absolute;
+		bottom: 6px;
+		left: 6px;
+	}
+
+	&_container {
+		display: flex;
+		flex-direction: column;
+		row-gap: 4px;
+
+		margin-top: 4px;
+	}
+
+	&_rival {
+		position: relative;
+		margin-right: 95px;
+		top: 5px;
+		transition: 0.25s ease-out;
+		cursor: pointer;
+
+		&:hover {
+			&::before {
+				color: black;
+			}
+			color: #5b58e5;
+		}
+
+		&::before {
+			content: 'провинция';
+			font-size: 14px;
+			position: absolute;
+			bottom: 0;
+			right: -90px;
+
+			&:hover {
+				color: black;
+			}
+		}
+	}
+
+	&_player {
+		position: relative;
+		margin-left: 98px;
+		top: 5px;
+		transition: 0.25s ease-out;
+		cursor: pointer;
+
+		&:hover {
+			&::after {
+				color: black;
+			}
+			color: #5b58e5;
+		}
+
+		&::after {
+			content: 'провинция';
+			font-size: 14px;
+			position: absolute;
+			bottom: 0;
+			left: -90px;
+
+			&:hover {
+				color: black;
+			}
+		}
+	}
+}
+
+.chip {
+	display: block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: relative;
+
+	border: 1px solid black;
+
+	transition: 0.25s ease-out;
+
+	&_md {
+		width: 14px;
+		height: 14px;
+
+		cursor: pointer;
+	}
+
+	&_h {
+		&::after {
+			content: '';
+			display: block;
+			position: absolute;
+			bottom: -10px;
+			width: 100%;
+			height: 3px;
+			background-color: #5b58e5;
+		}
+	}
+
+	&_1 {
+		background-color: red;
+	}
+
+	&_2 {
+		background-color: #5b58e5;
+	}
+
+	&_3 {
+		background-color: green;
+	}
+
+	&_4 {
+		background-color: white;
+	}
+
+	&_5 {
+		background-color: rgb(255, 221, 0);
+	}
+}
+
+.chips {
+	padding-left: 6px;
+
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: auto;
+	grid-gap: 4px;
+
+	align-self: center;
+
+	&_pd {
+		margin-top: 18px;
+	}
+}
+
+h5 {
+	padding: 0;
+	user-select: none;
+}
+
+.countdown {
+	user-select: none;
+	font-size: 14px;
+	transition: 0.25s ease-out;
+
+	left: 0;
+	cursor: pointer;
+
+	&:hover {
+		color: #5b58e5;
+	}
+}
+
+.placement {
+	position: absolute;
+	top: 450px;
+	left: 20px;
+	font-size: 14px;
+
+	user-select: none;
+}
+
+.note {
+	color: rgb(111, 111, 111);
+	cursor: pointer;
+	transition: 0.25s ease-out;
+	font-size: 14px;
+
+	&:hover {
+		color: #5b58e5;
+	}
+
+	&_2 {
+		color: rgb(111, 111, 111);
+		cursor: pointer;
+		transition: 0.25s ease-out;
+
+		top: 6px;
+		font-size: 14px;
+
+		&:hover {
+			color: #5b58e5;
+		}
+	}
+}
+
+.end {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+
+	padding: 50px;
+	border: 1px solid #5b58e5;
+	border-radius: 16px;
+
+	width: 500px;
+
+	row-gap: 10px;
+	user-select: none;
+
+	h2 {
+		font-weight: 500;
+		margin-bottom: 10px;
+	}
+
+	a {
+		margin-top: 10px;
+	}
+
+	&_wrapper {
+		display: flex;
+		flex-direction: column;
+		row-gap: 12px;
+	}
+}
+
+.winner_wr {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 6px;
+	transition: 0.25s ease-out;
+	cursor: pointer;
+	&:hover {
+		div {
+			color: #5b58e5;
+		}
+	}
+}
+
+.points_wr {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 6px;
+	transition: 0.25s ease-out;
+	cursor: pointer;
+
+	&:hover {
+		div {
+			color: #5b58e5;
+		}
+	}
+}
+
+.owner {
+	&_1 {
+		border-color: blue;
+	}
+	&_2 {
+		border-color: rgb(167, 35, 35);
+		color: rgb(167, 35, 35);
+	}
 }

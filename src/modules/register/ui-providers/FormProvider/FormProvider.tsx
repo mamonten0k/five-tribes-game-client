@@ -1,35 +1,43 @@
-import { useState } from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectError } from '../../../../store/error/error.selectors';
+import { errorActions } from '../../../../store/error/error.slice';
+import useCreateSession from '../../hooks/useCreateOne';
+
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { FormWrapper } from '../../ui';
 import { Input, ErrorMessage, Form } from '../../../common/ui';
 
-import { useSignUpMutation } from '../../../../utils/api/auth.api';
-import { Error, UserCredentialsParams } from '../../../../utils/types';
+import { UserParams } from '../../../../utils/types';
 
 const FormProvider = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [signUp, { isLoading }] = useSignUpMutation();
-  const [error, setError] = useState<Error | null>(); // Лишний ререндер, но больше удобства
+  const signUp = useCreateSession();
+  const error = useSelector(selectError);
 
-  const { register, handleSubmit } = useForm<UserCredentialsParams>();
+  const { register, handleSubmit } = useForm<UserParams>();
 
-  const onSignUp = async (data: UserCredentialsParams) => {
-    try {
-      await signUp(data).unwrap();
-      navigate('/');
-    } catch (e) {
-      setError(e as Error);
-    }
+  const onSignUp = async (data: UserParams) => {
+    signUp.mutate(data);
   };
+
+  useEffect(() => {
+    dispatch(errorActions.flush());
+  }, []);
+
+  useEffect(() => {
+    if (!error && signUp.isSuccess) {
+      navigate('/');
+    }
+  }, [signUp.isSuccess]);
 
   return (
     <FormWrapper heading='Регистрация'>
-      <Form submitMsg='Регистрация' onSubmit={handleSubmit(onSignUp)} isDisabled={isLoading}>
+      <Form submitMsg='Регистрация' onSubmit={handleSubmit(onSignUp)} isDisabled={signUp.isLoading}>
         <Input
           label='Логин пользователя'
           id='username'
@@ -42,7 +50,7 @@ const FormProvider = () => {
           type='password'
           refs={register('password', { required: true })}
         />
-        {error && <ErrorMessage message={error.data.message} />}
+        {error && <ErrorMessage message={error} />}
       </Form>
     </FormWrapper>
   );

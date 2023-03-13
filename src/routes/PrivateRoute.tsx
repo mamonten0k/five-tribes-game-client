@@ -1,10 +1,20 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useGetStatusQuery } from '../utils/api/auth.api';
+import { Spinner } from '../modules/common/ui';
+import useSession from '../hooks/useSession';
 
 function PrivateRoute() {
-  const { isError } = useGetStatusQuery();
+  const { data, isLoading, isFetching, isFetchedAfterMount, isError, refetch } = useSession();
 
-  if (isError) {
+  if (isLoading && isFetching) {
+    return <Spinner message='Подгружаем необходимую информацию' />;
+  }
+
+  if (!isFetchedAfterMount) {
+    refetch();
+    return <Spinner message='Подгружаем необходимую информацию' />;
+  }
+
+  if (data?.rejected || isError) {
     return <Navigate to='/login' />;
   }
 

@@ -1,32 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { FLUSH, PAUSE, PERSIST, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
-import { rootAPI } from '../utils/api';
 
-import gameMiddleware from './game/game.middleware';
 import { gameReducer } from './game/game.slice';
-import { socketActionTypes, socketReducer } from './socket/socket.slice';
+import { errorReducer } from './error/error.slice';
+import { notificationReducer } from './notification/notification.slice';
 
 export const store = configureStore({
   reducer: {
     game: gameReducer,
-    socket: socketReducer,
-    [rootAPI.reducerPath]: rootAPI.reducer,
+    error: errorReducer,
+    notification: notificationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [
-          socketActionTypes.SET_SOCKET,
-          FLUSH,
-          REHYDRATE,
-          PAUSE,
-          PERSIST,
-          PURGE,
-          REGISTER,
-        ],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat([rootAPI.middleware, gameMiddleware]),
+    }),
 });
 
 setupListeners(store.dispatch);

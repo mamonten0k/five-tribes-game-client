@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { selectError } from '../../../../store/error/error.selectors';
+import useCreateSession from '../../hooks/useCreateSession';
 
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -6,29 +9,29 @@ import { useNavigate } from 'react-router-dom';
 import { FormWrapper } from '../../ui';
 import { ErrorMessage, Form, Input } from '../../../common/ui';
 
-import { Error, UserCredentialsParams } from '../../../../utils/types';
-import { useSignInMutation } from '../../../../utils/api/auth.api';
+import { UserParams } from '../../../../utils/types';
 
 const FormProvider = () => {
   const navigate = useNavigate();
 
-  const [signIn, { isLoading }] = useSignInMutation();
-  const [error, setError] = useState<Error | null>(); // Лишний ререндер, но больше удобства
+  const signIn = useCreateSession();
+  const error = useSelector(selectError);
 
-  const { register, handleSubmit } = useForm<UserCredentialsParams>();
+  const { register, handleSubmit } = useForm<UserParams>();
 
-  const onSignIn = async (data: UserCredentialsParams) => {
-    try {
-      await signIn(data).unwrap();
-      navigate('/');
-    } catch (e) {
-      setError(e as Error);
-    }
+  const onSignIn = (data: UserParams) => {
+    signIn.mutate(data);
   };
+
+  useEffect(() => {
+    if (!error && signIn.isSuccess) {
+      navigate('/');
+    }
+  }, [signIn.isSuccess]);
 
   return (
     <FormWrapper heading='Вход'>
-      <Form submitMsg='Войти' onSubmit={handleSubmit(onSignIn)} isDisabled={isLoading}>
+      <Form submitMsg='Войти' onSubmit={handleSubmit(onSignIn)} isDisabled={signIn.isLoading}>
         <Input
           label='Логин пользователя'
           id='username'
@@ -41,7 +44,7 @@ const FormProvider = () => {
           type='password'
           refs={register('password', { required: true })}
         />
-        {error && <ErrorMessage message={error.data.message} />}
+        {error && <ErrorMessage message={error} />}
       </Form>
     </FormWrapper>
   );

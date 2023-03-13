@@ -25,12 +25,14 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
 
   "rules": {
+    "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
     "spaced-comment": "error",
     "quotes": ["error", "single"],
     "no-duplicate-imports": "error",
-    "@typescript-eslint/naming-convention": "off"
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
   },
 
   "settings": {

@@ -7,17 +7,14 @@ interface ExistingGamesProps {
 }
 
 const ExistingGames: FC<ExistingGamesProps> = ({ children }) => {
-  if (!children) {
-    return <div>NO GAMES WAS FOUND</div>;
-  }
-
   return (
     <ul className={styles.list}>
-      {children.map((game) => (
-        <li key={Math.random()} className={styles.game}>
-          {game}
-        </li>
-      ))}
+      {children &&
+        children.map((game) => (
+          <li key={Math.random()} className={styles.game}>
+            {game}
+          </li>
+        ))}
     </ul>
   );
 };
