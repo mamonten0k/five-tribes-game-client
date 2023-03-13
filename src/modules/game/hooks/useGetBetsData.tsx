@@ -11,7 +11,7 @@ const getBetOptions = async (params: GameId) => {
   if (response && 'rejected' in response && response.rejected) {
     store.dispatch(errorActions.reset({ errorMsg: response.error_message }));
   } else {
-    if (response) return response['batch-1'];
+    if (response) return response['batch-1'] || [];
   }
 
   await waitFor(4000);

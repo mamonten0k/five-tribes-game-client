@@ -109,8 +109,8 @@ const initialState: GameState = {
 
   selectedChip: null,
 
-  score: null,
-  winner: null,
+  score: 0,
+  winner: 'Ничья',
 
   playerChips: {},
   rivalChips: {},
