@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux';
-import { selectInitialProvince } from '../../../../store/game/game.selectors';
+import { selectErrorMessage, selectInitialProvince } from '../../../../store/game/game.selectors';
 import { PickedProvinceChips } from '../PickedProvinceChips/PickedProvinceChips';
 
 import styles from '../../index.module.scss';
 
 export const ChipsPicker = () => {
   const provinceFrom = useSelector(selectInitialProvince);
+  const error = useSelector(selectErrorMessage);
 
   return (
     <>
@@ -14,6 +15,7 @@ export const ChipsPicker = () => {
       ) : (
         <PickedProvinceChips provinceFrom={provinceFrom.toString()} />
       )}
+      {error && <div className={styles.error}>{error}</div>}
     </>
   );
 };

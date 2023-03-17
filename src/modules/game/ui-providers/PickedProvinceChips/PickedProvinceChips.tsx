@@ -25,7 +25,6 @@ export const PickedProvinceChips: FC<PickedProvinceChipsProps> = ({ provinceFrom
   const provinceChips = useSelector(selectSelectedChips);
   const provinceId = useSelector(selectSelectedProvince)?.toString();
   const chipId = useSelector(selectSelectedChip);
-  const error = useSelector(selectErrorMessage);
 
   const { gameId } = useParams();
   const handlePlaceChip = usePostHandlePlaceChip();
@@ -48,7 +47,6 @@ export const PickedProvinceChips: FC<PickedProvinceChipsProps> = ({ provinceFrom
           </li>
         ))}
       </ul>
-      {error && <div className={styles.error}>{error}</div>}
     </>
   );
 };

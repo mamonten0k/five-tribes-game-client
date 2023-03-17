@@ -20,9 +20,9 @@ const getGameData = async (params: ExitGameParams) => {
     }
 
     store.dispatch(gameActions.updateGameState({ ...(response['batch-1'] || [])[0] }));
-    store.dispatch(gameActions.updatePlayersCoins({ playersCoins: response['batch-3'] }));
-    store.dispatch(gameActions.updateGameField({ gameField: response['batch-5'] }));
-    store.dispatch(gameActions.updateTurnsOrder({ turnsOrder: response['batch-2'] }));
+    store.dispatch(gameActions.updatePlayersCoins({ playersCoins: response['batch-3'] || [] }));
+    store.dispatch(gameActions.updateGameField({ gameField: response['batch-5'] || [] }));
+    store.dispatch(gameActions.updateTurnsOrder({ turnsOrder: response['batch-2'] || [] }));
     store.dispatch(gameActions.updateSelectedChips({ selectedChips: response['batch-9'] || [] }));
     store.dispatch(gameActions.updateOwnedProvinces({ ownedProvinces: response['batch-7'] || [] }));
     store.dispatch(

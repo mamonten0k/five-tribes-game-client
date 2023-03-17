@@ -218,12 +218,20 @@ const gameSlice = createSlice({
     handlePickChip: (state, action) => {
       const { chipId } = action.payload;
 
+      state.selectedProvince = null;
       state.selectedChip = chipId;
     },
     updateError: (state, action) => {
-      const { errorMessage } = action.payload;
+      const { errorMsg } = action.payload;
 
-      state.errorMessage = errorMessage;
+      state.errorMessage = errorMsg;
+
+      if (errorMsg == 'Неправильный ход, начните расстановку сначала') {
+        state.provinceFrom = null;
+        state.selectedChip = null;
+        state.selectedChips = null;
+        state.selectedProvince = null;
+      }
     },
     updateProvinces: (state, action) => {
       const { provincesToUpdate } = action.payload;
@@ -290,7 +298,6 @@ const gameSlice = createSlice({
       if (chip) {
         state.selectedChips =
           state.selectedChips?.filter((chip) => chip?.chipType === chip?.chipType) || null;
-        state.gameChips[provinceId]?.push(chip);
       }
     },
     updateSelectedChips: (state, action) => {

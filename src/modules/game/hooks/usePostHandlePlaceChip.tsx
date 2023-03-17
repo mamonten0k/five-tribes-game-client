@@ -22,7 +22,7 @@ const postHandlePlaceChip = async (params: HandleBetParams) => {
   const response: any = await dbService.handlePlaceChip({ ...params, token });
 
   if (response.rejected) {
-    store.dispatch(errorActions.reset({ errorMsg: response.error_message }));
+    store.dispatch(gameActions.updateError({ errorMsg: response.error_message }));
   } else {
     store.dispatch(errorActions.flush());
     store.dispatch(gameActions.placeChip({ ...params }));
